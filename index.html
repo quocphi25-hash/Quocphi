@@ -51,6 +51,7 @@ button {
   padding: 8px 14px;
   border-radius: 8px;
   cursor: pointer;
+  margin: 2px;
 }
 button:hover {
   background-color: #2e7d32;
@@ -94,6 +95,13 @@ button:hover {
 }
 .delete-btn:hover {
   background-color: #d32f2f;
+}
+.export-btn {
+  background-color: #1976d2;
+  margin-top: 10px;
+}
+.export-btn:hover {
+  background-color: #1565c0;
 }
 </style>
 </head>
@@ -186,6 +194,7 @@ button:hover {
   <div class="bill" id="bill-output"></div>
 
   <h2>Lịch sử hóa đơn</h2>
+  <button class="export-btn" onclick="exportToExcel()">Xuất Excel Lịch sử</button>
   <div class="history" id="history"></div>
 </div>
 
@@ -219,7 +228,15 @@ function removeItem(i){
 }
 
 function printBill(){
-  if(orders.length===0){ alert("Chưa có món nào!"); return; }
+  if(orders.length===0){ 
+    alert("Chưa có món nào!"); 
+    return; 
+  }
+  
+  if(!confirm("Bạn có chắc muốn xuất bill và xóa các món đã đặt?")) {
+    return;
+  }
+  
   const now = new Date();
   const dateStr = now.toLocaleString("vi-VN");
   let total = orders.reduce((a,b)=>a+b.price,0);
@@ -227,12 +244,24 @@ function printBill(){
   orders.forEach((o,i)=> bill += `${i+1}. ${o.name} ${o.size||""} - ${o.price.toLocaleString()}đ\n`);
   bill += `--------------------\nTổng cộng: ${total.toLocaleString()}đ\n❤️ Cảm ơn quý khách! ❤️`;
   document.getElementById("bill-output").innerText = bill;
-  saveBill(bill);
+  saveBill(bill, total);
+  
+  // Xóa danh sách đặt hàng
+  orders = [];
+  renderOrders();
 }
 
-function saveBill(bill){
+function saveBill(bill, total){
+  const now = new Date();
+  const billData = {
+    billText: bill,
+    date: now.toLocaleString("vi-VN"),
+    items: [...orders],
+    total: total
+  };
+  
   const list = JSON.parse(localStorage.getItem("bills") || "[]");
-  list.push(bill);
+  list.push(billData);
   localStorage.setItem("bills", JSON.stringify(list));
   loadHistory();
 }
@@ -240,8 +269,39 @@ function saveBill(bill){
 function loadHistory(){
   const div = document.getElementById("history");
   const list = JSON.parse(localStorage.getItem("bills") || "[]");
-  div.innerHTML = list.map(b=>`<pre>${b}</pre><hr>`).join("");
+  div.innerHTML = list.map((b, index) => 
+    `<div><strong>Hóa đơn ${index+1} - ${b.date}</strong><pre>${b.billText}</pre></div><hr>`
+  ).join("");
 }
+
+function exportToExcel() {
+  const list = JSON.parse(localStorage.getItem("bills") || "[]");
+  if (list.length === 0) {
+    alert("Không có dữ liệu để xuất!");
+    return;
+  }
+  
+  // Tạo dữ liệu CSV
+  let csvContent = "Ngày,Tên món,Size,Giá\n";
+  
+  list.forEach(bill => {
+    bill.items.forEach(item => {
+      csvContent += `"${bill.date}","${item.name}","${item.size || ''}","${item.price}"\n`;
+    });
+  });
+  
+  // Tạo file và tải về
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement("a");
+  const url = URL.createObjectURL(blob);
+  link.setAttribute("href", url);
+  link.setAttribute("download", "lich_su_ban_hang.csv");
+  link.style.visibility = 'hidden';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
 loadHistory();
 </script>
 </body>
