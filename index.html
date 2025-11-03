@@ -1,0 +1,293 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Quán Cà Phê</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(to right, #8B4513, #A0522D);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .coffee-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .menu-container {
+            padding: 20px;
+        }
+
+        .category {
+            margin-bottom: 30px;
+        }
+
+        .category-title {
+            font-size: 1.8rem;
+            color: #8B4513;
+            border-bottom: 2px solid #D2691E;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .category-title i {
+            margin-right: 10px;
+        }
+
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #D2691E;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .item-name {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .item-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #8B4513;
+            background-color: #FFF8DC;
+            padding: 5px 12px;
+            border-radius: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #8B4513;
+            color: white;
+            margin-top: 20px;
+            border-top: 1px solid #A0522D;
+        }
+
+        .highlight {
+            background: linear-gradient(to right, #8B4513, #A0522D);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            display: inline-block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .menu-items {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .category-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="coffee-icon">
+                <i class="fas fa-coffee"></i>
+            </div>
+            <h1>Menu Quán Cà Phê</h1>
+            <p class="subtitle">Thưởng thức hương vị tuyệt vời</p>
+        </header>
+        
+        <div class="menu-container">
+            <div class="category">
+                <h2 class="category-title"><i class="fas fa-mug-hot"></i> Cà Phê & Đồ Uống Nóng</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <span class="item-name">Cà phê đá</span>
+                        <span class="item-price">14k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Cà phê sữa</span>
+                        <span class="item-price">16k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Cà phê muối</span>
+                        <span class="item-price">18k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Sữa tươi cà phê</span>
+                        <span class="item-price">22k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Bạc xỉu</span>
+                        <span class="item-price">18k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Cacao sữa</span>
+                        <span class="item-price">17k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Cacao muối</span>
+                        <span class="item-price">19k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Sữa nóng</span>
+                        <span class="item-price">15k</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="category">
+                <h2 class="category-title"><i class="fas fa-glass-whiskey"></i> Trà & Đồ Uống Đá</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <span class="item-name">Trà đào</span>
+                        <span class="item-price">20k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Trà vải</span>
+                        <span class="item-price">20k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Trà dâu</span>
+                        <span class="item-price">20k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Trà ổi</span>
+                        <span class="item-price">20k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Chanh đá</span>
+                        <span class="item-price">15k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Lipton chanh</span>
+                        <span class="item-price">15k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Sữa chua đá</span>
+                        <span class="item-price">20k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Trà tắc</span>
+                        <span class="item-price">12k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Trà tắc xí muội</span>
+                        <span class="item-price">15k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Lipton chanh mật ong</span>
+                        <span class="item-price">15k</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="category">
+                <h2 class="category-title"><i class="fas fa-blender"></i> Đồ Uống Đặc Biệt</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <span class="item-name">Milo dầm</span>
+                        <span class="item-price">15k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Sữa tươi dưỡng đen</span>
+                        <span class="item-price">20k</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Quán cà phê của chúng tôi - Nơi hương vị gặp gỡ</p>
+            <div class="highlight">
+                Mở cửa: 7:00 - 22:00 hàng ngày
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Thêm hiệu ứng khi cuộn trang
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuItems = document.querySelectorAll('.menu-item');
+            
+            // Thêm hiệu ứng xuất hiện khi cuộn
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            menuItems.forEach(item => {
+                item.style.opacity = 0;
+                item.style.transform = 'translateY(20px)';
+                item.style.transition = 'opacity 0.5s, transform 0.5s';
+                observer.observe(item);
+            });
+        });
+    </script>
+</body>
+</html>
