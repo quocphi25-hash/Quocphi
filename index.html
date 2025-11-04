@@ -88,6 +88,8 @@ button:hover {
   padding: 10px;
   border-radius: 8px;
   margin-top: 15px;
+  max-height: 400px;
+  overflow-y: auto;
 }
 .delete-btn {
   background-color: #ef5350;
@@ -102,6 +104,70 @@ button:hover {
 }
 .export-btn:hover {
   background-color: #1565c0;
+}
+.stats-btn {
+  background-color: #7b1fa2;
+  margin-top: 10px;
+}
+.stats-btn:hover {
+  background-color: #6a1b9a;
+}
+.history-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.history-item {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #81c784;
+  border-radius: 8px;
+  background-color: white;
+}
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 5px;
+}
+.history-content {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  white-space: pre-line;
+  font-family: monospace;
+}
+.stats-section {
+  background-color: #fff3e0;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+.stat-card {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.stat-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2e7d32;
+}
+.stat-label {
+  font-size: 14px;
+  color: #666;
+  margin-top: 5px;
 }
 </style>
 </head>
@@ -193,8 +259,17 @@ button:hover {
 
   <div class="bill" id="bill-output"></div>
 
-  <h2>Lịch sử hóa đơn</h2>
-  <button class="export-btn" onclick="exportToExcel()">Xuất Excel Lịch sử</button>
+  <!-- Phần thống kê theo ngày -->
+  <div class="stats-section">
+    <h2>📊 Thống kê hôm nay</h2>
+    <button class="stats-btn" onclick="showDailyStats()">Xem thống kê hôm nay</button>
+    <div id="daily-stats" class="stats-grid"></div>
+  </div>
+
+  <h2>Lịch sử hóa đơn (Cập nhật theo thời gian thực)</h2>
+  <div class="history-controls">
+    <button class="export-btn" onclick="exportToExcel()">Xuất Excel Lịch sử</button>
+  </div>
   <div class="history" id="history"></div>
 </div>
 
@@ -244,34 +319,79 @@ function printBill(){
   orders.forEach((o,i)=> bill += `${i+1}. ${o.name} ${o.size||""} - ${o.price.toLocaleString()}đ\n`);
   bill += `--------------------\nTổng cộng: ${total.toLocaleString()}đ\n❤️ Cảm ơn quý khách! ❤️`;
   document.getElementById("bill-output").innerText = bill;
-  saveBill(bill, total);
+  
+  // Tạo bản sao của orders trước khi xóa
+  const currentOrders = [...orders];
+  saveBill(bill, total, currentOrders);
   
   // Xóa danh sách đặt hàng
   orders = [];
   renderOrders();
 }
 
-function saveBill(bill, total){
+function saveBill(bill, total, currentOrders){
   const now = new Date();
   const billData = {
     billText: bill,
     date: now.toLocaleString("vi-VN"),
-    items: [...orders],
-    total: total
+    items: currentOrders,
+    total: total,
+    timestamp: now.getTime() // Thêm timestamp để sắp xếp
   };
   
   const list = JSON.parse(localStorage.getItem("bills") || "[]");
   list.push(billData);
   localStorage.setItem("bills", JSON.stringify(list));
+  
+  // Cập nhật lịch sử ngay lập tức
   loadHistory();
 }
 
 function loadHistory(){
   const div = document.getElementById("history");
   const list = JSON.parse(localStorage.getItem("bills") || "[]");
-  div.innerHTML = list.map((b, index) => 
-    `<div><strong>Hóa đơn ${index+1} - ${b.date}</strong><pre>${b.billText}</pre></div><hr>`
-  ).join("");
+  
+  // Sắp xếp theo thời gian mới nhất trước
+  list.sort((a, b) => b.timestamp - a.timestamp);
+  
+  if (list.length === 0) {
+    div.innerHTML = "<p>Chưa có hóa đơn nào.</p>";
+    return;
+  }
+  
+  div.innerHTML = list.map((b, index) => {
+    const totalFormatted = b.total.toLocaleString() + 'đ';
+    return `
+    <div class="history-item">
+      <div class="history-header" onclick="toggleBillDetails(${index})">
+        <span><strong>Hóa đơn ${list.length - index}</strong> - ${b.date} - Tổng: ${totalFormatted}</span>
+        <button class="toggle-btn">Xem</button>
+      </div>
+      <div id="bill-details-${index}" class="history-content" style="display: none;">
+        <pre>${b.billText}</pre>
+        <button class="delete-btn" onclick="deleteBill(${index})">Xóa hóa đơn này</button>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function toggleBillDetails(index) {
+  const details = document.getElementById(`bill-details-${index}`);
+  if (details.style.display === 'block') {
+    details.style.display = 'none';
+  } else {
+    details.style.display = 'block';
+  }
+}
+
+function deleteBill(index) {
+  if (!confirm("Bạn có chắc muốn xóa hóa đơn này?")) {
+    return;
+  }
+  const list = JSON.parse(localStorage.getItem("bills") || "[]");
+  list.splice(index, 1);
+  localStorage.setItem("bills", JSON.stringify(list));
+  loadHistory();
 }
 
 function exportToExcel() {
@@ -282,11 +402,13 @@ function exportToExcel() {
   }
   
   // Tạo dữ liệu CSV
-  let csvContent = "Ngày,Tên món,Size,Giá\n";
+  let csvContent = "STT,Ngày,Tên món,Size,Giá\n";
   
+  let stt = 1;
   list.forEach(bill => {
     bill.items.forEach(item => {
-      csvContent += `"${bill.date}","${item.name}","${item.size || ''}","${item.price}"\n`;
+      csvContent += `${stt},"${bill.date}","${item.name}","${item.size || ''}","${item.price}"\n`;
+      stt++;
     });
   });
   
@@ -295,14 +417,95 @@ function exportToExcel() {
   const link = document.createElement("a");
   const url = URL.createObjectURL(blob);
   link.setAttribute("href", url);
-  link.setAttribute("download", "lich_su_ban_hang.csv");
+  link.setAttribute("download", `lich_su_ban_hang_${new Date().toLocaleDateString('vi-VN')}.csv`);
   link.style.visibility = 'hidden';
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
 }
 
+// Thống kê theo ngày
+function showDailyStats() {
+  const list = JSON.parse(localStorage.getItem("bills") || "[]");
+  const today = new Date();
+  const todayString = today.toLocaleDateString('vi-VN');
+  
+  // Lọc hóa đơn trong ngày hôm nay
+  const todayBills = list.filter(bill => {
+    const billDate = new Date(bill.timestamp).toLocaleDateString('vi-VN');
+    return billDate === todayString;
+  });
+  
+  if (todayBills.length === 0) {
+    document.getElementById('daily-stats').innerHTML = '<p>Hôm nay chưa có hóa đơn nào.</p>';
+    return;
+  }
+  
+  // Tính toán thống kê
+  let totalRevenue = 0;
+  let totalOrders = todayBills.length;
+  let productCount = {};
+  let totalItems = 0;
+  
+  todayBills.forEach(bill => {
+    totalRevenue += bill.total;
+    bill.items.forEach(item => {
+      totalItems++;
+      const key = item.name + (item.size ? ` (${item.size})` : '');
+      productCount[key] = (productCount[key] || 0) + 1;
+    });
+  });
+  
+  // Tìm sản phẩm bán chạy nhất
+  let bestSeller = { name: '', count: 0 };
+  Object.entries(productCount).forEach(([product, count]) => {
+    if (count > bestSeller.count) {
+      bestSeller = { name: product, count: count };
+    }
+  });
+  
+  // Hiển thị thống kê
+  const statsContainer = document.getElementById('daily-stats');
+  statsContainer.innerHTML = `
+    <div class="stat-card">
+      <div class="stat-value">${totalOrders}</div>
+      <div class="stat-label">Hóa đơn</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">${totalRevenue.toLocaleString()}đ</div>
+      <div class="stat-label">Doanh thu</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">${totalItems}</div>
+      <div class="stat-label">Số món đã bán</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">${bestSeller.count}</div>
+      <div class="stat-label">${bestSeller.name || 'Chưa có'}</div>
+    </div>
+  `;
+  
+  // Thêm chi tiết sản phẩm bán chạy
+  let productDetails = '<div style="grid-column: 1 / -1; margin-top: 15px;"><h3>Chi tiết sản phẩm bán chạy:</h3><ul>';
+  Object.entries(productCount)
+    .sort((a, b) => b[1] - a[1])
+    .forEach(([product, count]) => {
+      productDetails += `<li>${product}: ${count} lượt</li>`;
+    });
+  productDetails += '</ul></div>';
+  
+  statsContainer.innerHTML += productDetails;
+}
+
+// Tải lịch sử khi trang được mở
 loadHistory();
+
+// Thêm sự kiện lắng nghe thay đổi localStorage để cập nhật thời gian thực
+window.addEventListener('storage', function(e) {
+  if (e.key === 'bills') {
+    loadHistory();
+  }
+});
 </script>
 </body>
 </html>
