@@ -169,85 +169,223 @@ button:hover {
   color: #666;
   margin-top: 5px;
 }
+.price-info {
+  font-size: 12px;
+  color: #666;
+  margin-top: 3px;
+}
+.menu-item-content {
+  display: flex;
+  flex-direction: column;
+}
 </style>
 </head>
 <body>
 <header>☕ ENJOY COFFEE - MENU ORDER 💚</header>
 <div class="container">
-  <h2>Menu Cà phê</h2>
+  <!-- BEST SELLER SECTION -->
+  <h2>🔥 Best Seller</h2>
   <div class="menu-item">
-    <span>Cà phê sữa</span>
+    <div class="menu-item-content">
+      <div>Sữa tươi cà phê Ly lớn</div>
+      <div class="price-info">22.000đ</div>
+    </div>
+    <button onclick="addItem('Sữa tươi cà phê Ly lớn', 22000)">Thêm</button>
+  </div>
+  <div class="menu-item">
+    <div class="menu-item-content">
+      <div>Cà phê muối</div>
+      <div class="price-info">S: 18.000đ | L: 25.000đ</div>
+    </div>
     <div>
       <select class="size">
-        <option value="M">M</option>
-        <option value="L">L (+4k)</option>
+        <option value="S">S</option>
+        <option value="L">L</option>
       </select>
-      <button onclick="addItem('Cà phê sữa', 14000, this)">Thêm</button>
+      <button onclick="addItem('Cà phê muối', 18000, this)">Thêm</button>
     </div>
   </div>
   <div class="menu-item">
-    <span>Cà phê đen</span>
-    <div>
-      <select class="size">
-        <option value="M">M</option>
-        <option value="L">L (+4k)</option>
-      </select>
-      <button onclick="addItem('Cà phê đen', 12000, this)">Thêm</button>
+    <div class="menu-item-content">
+      <div>Matcha Latte</div>
+      <div class="price-info">25.000đ</div>
     </div>
+    <button onclick="addItem('Matcha Latte', 25000)">Thêm</button>
   </div>
   <div class="menu-item">
-    <span>Cà phê sữa tươi</span>
-    <div>
-      <select class="size">
-        <option value="M">M</option>
-        <option value="L">L (+4k)</option>
-      </select>
-      <button onclick="addItem('Cà phê sữa tươi', 18000, this)">Thêm</button>
+    <div class="menu-item-content">
+      <div>Trà sữa truyền thống</div>
+      <div class="price-info">20.000đ</div>
     </div>
-  </div>
-  <div class="menu-item">
-    <span>Bạc xỉu</span>
-    <div>
-      <select class="size">
-        <option value="M">M</option>
-        <option value="L">L (+4k)</option>
-      </select>
-      <button onclick="addItem('Bạc xỉu', 16000, this)">Thêm</button>
-    </div>
+    <button onclick="addItem('Trà sữa truyền thống', 20000)">Thêm</button>
   </div>
 
-  <h2>CaCao</h2>
+  <!-- CÀ PHÊ SECTION -->
+  <h2>☕ Cà Phê</h2>
   <div class="menu-item">
-    <span>CaCao nóng</span>
+    <div class="menu-item-content">
+      <div>Cà phê đá</div>
+      <div class="price-info">M: 14.000đ | L: 18.000đ</div>
+    </div>
     <div>
       <select class="size">
         <option value="M">M</option>
-        <option value="L">L (+4k)</option>
+        <option value="L">L</option>
       </select>
-      <button onclick="addItem('CaCao nóng', 20000, this)">Thêm</button>
+      <button onclick="addItem('Cà phê đá', 14000, this)">Thêm</button>
     </div>
   </div>
   <div class="menu-item">
-    <span>CaCao đá</span>
+    <div class="menu-item-content">
+      <div>Cà phê sữa</div>
+      <div class="price-info">M: 16.000đ | L: 20.000đ</div>
+    </div>
     <div>
       <select class="size">
         <option value="M">M</option>
-        <option value="L">L (+4k)</option>
+        <option value="L">L</option>
       </select>
-      <button onclick="addItem('CaCao đá', 20000, this)">Thêm</button>
+      <button onclick="addItem('Cà phê sữa', 16000, this)">Thêm</button>
     </div>
   </div>
+  <div class="menu-item">
+    <div class="menu-item-content">
+      <div>Cà phê muối</div>
+      <div class="price-info">M: 18.000đ | L: 24.000đ</div>
+    </div>
+    <div>
+      <select class="size">
+        <option value="M">M</option>
+        <option value="L">L</option>
+      </select>
+      <button onclick="addItem('Cà phê muối', 18000, this)">Thêm</button>
+    </div>
+  </div>
+  <div class="menu-item">
+    <div class="menu-item-content">
+      <div>Bạc xỉu</div>
+      <div class="price-info">M: 18.000đ | L: 22.000đ</div>
+    </div>
+    <div>
+      <select class="size">
+        <option value="M">M</option>
+        <option value="L">L</option>
+      </select>
+      <button onclick="addItem('Bạc xỉu', 18000, this)">Thêm</button>
+    </div>
+  </div>
+  <div class="menu-item">
+    <div class="menu-item-content">
+      <div>Bạc xỉu muối</div>
+      <div class="price-info">M: 22.000đ | L: 26.000đ</div>
+    </div>
+    <div>
+      <select class="size">
+        <option value="M">M</option>
+        <option value="L">L</option>
+      </select>
+      <button onclick="addItem('Bạc xỉu muối', 22000, this)">Thêm</button>
+    </div>
+  </div>
+  <div class="menu-item">
+    <div class="menu-item-content">
+      <div>Cacao sữa</div>
+      <div class="price-info">M: 17.000đ | L: 22.000đ</div>
+    </div>
+    <div>
+      <select class="size">
+        <option value="M">M</option>
+        <option value="L">L</option>
+      </select>
+      <button onclick="addItem('Cacao sữa', 17000, this)">Thêm</button>
+    </div>
+  </div>
+  <div class="menu-item">
+    <div class="menu-item-content">
+      <div>Cacao muối</div>
+      <div class="price-info">M: 20.000đ | L: 25.000đ</div>
+    </div>
+    <div>
+      <select class="size">
+        <option value="M">M</option>
+        <option value="L">L</option>
+      </select>
+      <button onclick="addItem('Cacao muối', 20000, this)">Thêm</button>
+    </div>
+  </div>
+  <div class="menu-item">
+    <div class="menu-item-content">
+      <div>Milo dầm trân châu trắng</div>
+      <div class="price-info">17.000đ</div>
+    </div>
+    <button onclick="addItem('Milo dầm trân châu trắng', 17000)">Thêm</button>
+  </div>
 
-  <h2>Trà & Đá xay</h2>
-  <div class="menu-item"><span>Trà đào cam sả</span><button onclick="addItem('Trà đào cam sả', 25000)">Thêm</button></div>
-  <div class="menu-item"><span>Trà vải</span><button onclick="addItem('Trà vải', 25000)">Thêm</button></div>
-  <div class="menu-item"><span>Trà tắc mật ong</span><button onclick="addItem('Trà tắc mật ong', 22000)">Thêm</button></div>
-  <div class="menu-item"><span>Đá xay socola</span><button onclick="addItem('Đá xay socola', 30000)">Thêm</button></div>
-
-  <h2>Khác</h2>
-  <div class="menu-item"><span>Nước suối</span><button onclick="addItem('Nước suối', 10000)">Thêm</button></div>
-  <div class="menu-item"><span>Sting dâu</span><button onclick="addItem('Sting dâu', 12000)">Thêm</button></div>
-  <div class="menu-item"><span>7Up</span><button onclick="addItem('7Up', 12000)">Thêm</button></div>
+  <!-- TRÀ GIẢI KHÁT SECTION -->
+  <h2>🍵 Trà Giải Khát</h2>
+  <div class="menu-item">
+    <div class="menu-item-content">
+      <div>Trà đào</div>
+      <div class="price-info">20.000đ</div>
+    </div>
+    <button onclick="addItem('Trà đào', 20000)">Thêm</button>
+  </div>
+  <div class="menu-item">
+    <div class="menu-item-content">
+      <div>Trà dâu</div>
+      <div class="price-info">20.000đ</div>
+    </div>
+    <button onclick="addItem('Trà dâu', 20000)">Thêm</button>
+  </div>
+  <div class="menu-item">
+    <div class="menu-item-content">
+      <div>Trà vải</div>
+      <div class="price-info">20.000đ</div>
+    </div>
+    <button onclick="addItem('Trà vải', 20000)">Thêm</button>
+  </div>
+  <div class="menu-item">
+    <div class="menu-item-content">
+      <div>Trà ổi</div>
+      <div class="price-info">20.000đ</div>
+    </div>
+    <button onclick="addItem('Trà ổi', 20000)">Thêm</button>
+  </div>
+  <div class="menu-item">
+    <div class="menu-item-content">
+      <div>Chanh đá</div>
+      <div class="price-info">15.000đ</div>
+    </div>
+    <button onclick="addItem('Chanh đá', 15000)">Thêm</button>
+  </div>
+  <div class="menu-item">
+    <div class="menu-item-content">
+      <div>Lipton chanh</div>
+      <div class="price-info">15.000đ</div>
+    </div>
+    <button onclick="addItem('Lipton chanh', 15000)">Thêm</button>
+  </div>
+  <div class="menu-item">
+    <div class="menu-item-content">
+      <div>Lipton chanh mật ong</div>
+      <div class="price-info">20.000đ</div>
+    </div>
+    <button onclick="addItem('Lipton chanh mật ong', 20000)">Thêm</button>
+  </div>
+  <div class="menu-item">
+    <div class="menu-item-content">
+      <div>Trà tắc</div>
+      <div class="price-info">12.000đ</div>
+    </div>
+    <button onclick="addItem('Trà tắc', 12000)">Thêm</button>
+  </div>
+  <div class="menu-item">
+    <div class="menu-item-content">
+      <div>Trà tắc xí muội</div>
+      <div class="price-info">15.000đ</div>
+    </div>
+    <button onclick="addItem('Trà tắc xí muội', 15000)">Thêm</button>
+  </div>
 
   <h2>Danh sách Order</h2>
   <table id="order-table">
@@ -276,10 +414,47 @@ button:hover {
 <script>
 let orders = [];
 
-function addItem(name, price, el){
-  const sizeSelect = el ? el.parentElement.querySelector(".size") : null;
-  let size = sizeSelect ? sizeSelect.value : "";
-  if(size === "L") price += 4000;
+function addItem(name, basePrice, el){
+  let price = basePrice;
+  let size = "";
+  
+  // Kiểm tra nếu có dropdown size
+  if (el) {
+    const sizeSelect = el.parentElement.querySelector(".size");
+    if (sizeSelect) {
+      size = sizeSelect.value;
+      // Tính giá dựa trên size được chọn
+      if (size === "L") {
+        // Tính toán giá cho size L dựa trên giá base (M)
+        switch(name) {
+          case "Cà phê muối":
+            price = 25000;
+            break;
+          case "Cà phê đá":
+            price = 18000;
+            break;
+          case "Cà phê sữa":
+            price = 20000;
+            break;
+          case "Bạc xỉu":
+            price = 22000;
+            break;
+          case "Bạc xỉu muối":
+            price = 26000;
+            break;
+          case "Cacao sữa":
+            price = 22000;
+            break;
+          case "Cacao muối":
+            price = 25000;
+            break;
+          default:
+            price = basePrice;
+        }
+      }
+    }
+  }
+  
   orders.push({name, size, price});
   renderOrders();
 }
@@ -336,7 +511,7 @@ function saveBill(bill, total, currentOrders){
     date: now.toLocaleString("vi-VN"),
     items: currentOrders,
     total: total,
-    timestamp: now.getTime() // Thêm timestamp để sắp xếp
+    timestamp: now.getTime()
   };
   
   const list = JSON.parse(localStorage.getItem("bills") || "[]");
